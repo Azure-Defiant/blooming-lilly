@@ -9,6 +9,18 @@
   
 <body class="not-loaded">
   <div class="night"></div>
+  
+  <!-- Message Button and Display -->
+  <div class="message-container">
+    <button id="messageBtn" class="message-btn">💕 Click for a message 💕</button>
+    <div id="messageDisplay" class="message-display hidden">
+      <div class="message-content">
+        <p>You bring a spark to my world that I never knew existed, and I'm always grateful for the love we share love love. I love youu!</p>
+        <button id="closeBtn" class="close-btn">×</button>
+      </div>
+    </div>
+  </div>
+  
   <div class="flowers">
     <div class="flower flower--1">
       <div class="flower__leafs flower__leafs--1">
@@ -307,6 +319,9 @@
       </div>
     </div>
   </div>
+  <div>
+    
+  </div>
   <style>
     *,
 *::after,
@@ -328,6 +343,115 @@ body {
   background-color: var(--dark-color);
   overflow: hidden;
   perspective: 1000px;
+}
+
+/* Message Styles */
+.message-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.message-btn {
+  background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500);
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+  transition: all 0.3s ease;
+  animation: pulse 2s infinite;
+}
+
+.message-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.6);
+  background: linear-gradient(45deg, #ff8fab, #d63384, #ffd23f);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.message-display {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.message-display.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.message-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  animation: messageAppear 0.5s ease-out;
+}
+
+@keyframes messageAppear {
+  0% {
+    transform: scale(0.5) rotate(-5deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.message-content p {
+  color: white;
+  font-size: 20px;
+  line-height: 1.6;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 24px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
 }
 
 .night {
@@ -1303,6 +1427,35 @@ mask-image: linear-gradient(to top, transparent 40%, #079097 80%) !important;
       clearTimeout(c);
     }, 1000);
   };
+
+  // Message functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const messageBtn = document.getElementById('messageBtn');
+    const messageDisplay = document.getElementById('messageDisplay');
+    const closeBtn = document.getElementById('closeBtn');
+
+    messageBtn.addEventListener('click', function() {
+      messageDisplay.classList.remove('hidden');
+    });
+
+    closeBtn.addEventListener('click', function() {
+      messageDisplay.classList.add('hidden');
+    });
+
+    // Close message when clicking outside
+    messageDisplay.addEventListener('click', function(e) {
+      if (e.target === messageDisplay) {
+        messageDisplay.classList.add('hidden');
+      }
+    });
+
+    // Close message with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !messageDisplay.classList.contains('hidden')) {
+        messageDisplay.classList.add('hidden');
+      }
+    });
+  });
 </script>
 
 </html>
